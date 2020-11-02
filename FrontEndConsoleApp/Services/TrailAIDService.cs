@@ -20,6 +20,7 @@ namespace FrontEndConsoleApp.Services
 
 
         private readonly HttpClient _httpClient = new HttpClient();
+        private static string Url = "https://localhost:44375/"
         private static string APIUrl = "https://localhost:44375/api/";
         public string token { get; set; }
 
@@ -51,7 +52,7 @@ namespace FrontEndConsoleApp.Services
                         new KeyValuePair<string, string> ( "Password", model.password )
                     };
             var content = new FormUrlEncodedContent(pairs);
-            HttpResponseMessage response = _httpClient.PostAsync("https://localhost:44375/token", content).Result;
+            HttpResponseMessage response = _httpClient.PostAsync($"{Url}token", content).Result;
             var result = response.Content.ReadAsStringAsync().Result;
             Dictionary<string, string> tokenDictionary =
                JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
