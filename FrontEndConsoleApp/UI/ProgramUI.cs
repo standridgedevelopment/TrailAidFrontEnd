@@ -500,11 +500,13 @@ namespace FrontEndConsoleApp.UI
                 Console.WriteLine("How would you like to search for the park?" +
                     "\n1. ID" +
                     "\n2. Name" +
-                    "\n3. City");
+                    "\n3. City" +
+                    "\n4. Return To Park Menu");
                 string response = Console.ReadLine().ToLower();
                 if (response == "1" || response == "id") ParkByID();
                 else if (response == "2" || response == "name") ParkByName();
                 else if (response == "3" || response == "city") ParkByCity();
+                else if (response == "4" || response == "return to park menu") continueToRun = false;
                 else
                 {
                     Console.WriteLine("Please enter a valid option" +
@@ -599,6 +601,7 @@ namespace FrontEndConsoleApp.UI
             {
                 ParkByID();
             }
+            Console.Clear();
 
         }
         private void ParkByCity()
