@@ -64,10 +64,7 @@ namespace FrontEndConsoleApp.UI
 
                 string response = Console.ReadLine().ToLower();
 
-                if (response == "1" || response == "edit profile")
-                {
-                    UserProfile(User);
-                }
+                if (response == "1" || response == "edit profile") UserProfile(User);
                 else if (response == "2" || response == "cities") Cities();
                 else if (response == "3" || response == "parks") Parks();
                 else if (response == "4" || response == "trails") Trails();
@@ -1046,6 +1043,8 @@ namespace FrontEndConsoleApp.UI
         }
         private void EditTrail(Trail Trail, int trailID)
         {
+            var trailChanges = new TrailEdit();
+            trailChanges.CityID = Trail.CityID;
             bool editTrail = true;
             bool success = false;
             var originalCityID = Trail.CityID;
@@ -1057,18 +1056,7 @@ namespace FrontEndConsoleApp.UI
                 {
                     Console.Clear();
                     Console.WriteLine("What would you like to edit?");
-                    // Console.WriteLine($"1. Name: {Name}" +
-                    //$"\n2. City ID : {CityID}" +
-                    //$"\n3. ParkID: {ParkID}" +
-                    //$"\n4. Difficulty: {Difficulty}" +
-                    //$"\n5. Description: {Description}" +
-                    //$"\n6. Distance: {Distance}" +
-                    //$"\n7. Type of Terrain: {TypeOfTerrain}" +
-                    //$"\n8. Tags: {Tags}" +
-                    //$"\n9. Elevation: {Elevation}" +
-                    //$"\n10. RouteType: {RouteType}" +
-                    //$"\n11. Save Changes");
-
+                  
                     Trail.PrintPropsForEdit();
                     Console.WriteLine("\nEnter the number of your seleciton");
                     string choice = Console.ReadLine().ToLower();
@@ -1078,6 +1066,7 @@ namespace FrontEndConsoleApp.UI
                         Console.Clear();
                         Console.WriteLine($"What would you like to rename {Trail.Name} to?");
                         Trail.Name = Console.ReadLine();
+                        trailChanges.Name = Trail.Name;
                     }
                     else if (choice == "2" || choice == "city id")
                     {
@@ -1089,6 +1078,7 @@ namespace FrontEndConsoleApp.UI
                             try
                             {
                                 Trail.CityID = int.Parse(Console.ReadLine());
+                                trailChanges.CityID = Trail.CityID;
                                 cityID = false;
                                 Console.Clear();
                             }
@@ -1104,14 +1094,15 @@ namespace FrontEndConsoleApp.UI
                     else if (choice == "3" || choice == "park id")
                     {
                         Console.Clear();
-                        bool cityID = true;
-                        while (cityID)
+                        bool parkID = true;
+                        while (parkID)
                         {
                             Console.WriteLine("What would you like to change the Park ID to?");
                             try
                             {
                                 Trail.ParkID = int.Parse(Console.ReadLine());
-                                cityID = false;
+                                trailChanges.ParkID = Trail.ParkID;
+                                parkID = false;
                                 Console.Clear();
                             }
                             catch
@@ -1129,6 +1120,7 @@ namespace FrontEndConsoleApp.UI
                         Console.Clear();
                         Console.WriteLine($"What would you like to change the Difficulty to?");
                         Trail.Difficulty = Console.ReadLine();
+                        trailChanges.Difficulty = Trail.Difficulty;
                     }
 
                     else if (choice == "5" || choice == "description")
@@ -1136,6 +1128,7 @@ namespace FrontEndConsoleApp.UI
                         Console.Clear();
                         Console.WriteLine($"Write a new description");
                         Trail.Description = Console.ReadLine();
+                        trailChanges.Description = Trail.Description;
                     }
 
                     else if (choice == "6" || choice == "distance")
@@ -1148,6 +1141,7 @@ namespace FrontEndConsoleApp.UI
                             try
                             {
                                 Trail.Distance = int.Parse(Console.ReadLine());
+                                trailChanges.Distance = Trail.Distance;
                                 distance = false;
                                 Console.Clear();
                             }
@@ -1166,25 +1160,27 @@ namespace FrontEndConsoleApp.UI
                         Console.Clear();
                         Console.WriteLine($"What would you like to change the Terrain to?");
                         Trail.TypeOfTerrain = Console.ReadLine();
+                        trailChanges.TypeOfTerrain = Trail.TypeOfTerrain;
                     }
 
                     else if (choice == "8" || choice == "tags")
                     {
                         Console.Clear();
-                        Console.WriteLine($"What would you like to change the Terrain to?");
-                        Trail.TypeOfTerrain = Console.ReadLine();
+                        Console.WriteLine($"What would you like to change the tags to?");
+                        Trail.Tags = Console.ReadLine();
                     }
                     else if (choice == "9" || choice == "Elevation")
                     {
                         Console.Clear();
-                        bool distance = true;
-                        while (distance)
+                        bool elevation = true;
+                        while (elevation)
                         {
                             Console.WriteLine("What would you like to change the Elevation to?");
                             try
                             {
                                 Trail.Elevation = int.Parse(Console.ReadLine());
-                                distance = false;
+                                trailChanges.Elevation = Trail.Elevation;
+                                elevation = false;
                                 Console.Clear();
                             }
                             catch
@@ -1202,6 +1198,7 @@ namespace FrontEndConsoleApp.UI
                         Console.Clear();
                         Console.WriteLine($"What would you like to change the Route Type to?");
                         Trail.RouteType = Console.ReadLine();
+                        trailChanges.RouteType = Trail.RouteType;
                     }
                     else if (choice == "11" || choice == "save changes") editTrail = false;
                     else
@@ -1213,25 +1210,33 @@ namespace FrontEndConsoleApp.UI
                         Console.Clear();
                     }
                 }
-            }
-            Console.Clear();
-            string edit = trailAIDService.EditGeneric<Trail>(Trail, trailID, "Trail").Result;
-            if (edit == "true")
-            {
-                Console.Clear();
-                Console.WriteLine($"Changes Sucessful" +
-                    $"\nPress any key to return to trail menu");
-                Console.ReadKey();
-                Console.Clear();
-                success = true;
-            }
-            else if (edit == "ID")
-            {
-                Trail.CityID = originalCityID;
-                Console.WriteLine($"Press any key to return to try again");
 
-                Console.ReadKey();
                 Console.Clear();
+                string edit = trailAIDService.EditGeneric<TrailEdit>(trailChanges, trailID, "Trail").Result;
+                if (edit == "true")
+                {
+                    Console.Clear();
+                    Console.WriteLine($"Changes Sucessful" +
+                        $"\nPress any key to return to trail menu");
+                    Console.ReadKey();
+                    Console.Clear();
+                    success = true;
+                }
+                else if (edit == "ID")
+                {
+                    Trail.CityID = originalCityID;
+                    Console.WriteLine($"Press any key to return to try again");
+
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+                else
+                {
+                    Console.WriteLine("catastrophic error" +
+                        "Press any key to continue...");
+                    Console.ReadKey();
+
+                }
             }
         }
         //Tags

@@ -143,10 +143,10 @@ namespace FrontEndConsoleApp.Services
             List<string> message = response.Content.ReadAsStringAsync().Result.Split('"').ToList();
             foreach (var phrase in message)
             {
-                if (phrase.Contains("Invalid"))
+                if (phrase.Contains("Park"))
                 {
                     Console.WriteLine(phrase);
-                    return "invalid ID";
+                    return "park";
                 }
                     
             }
