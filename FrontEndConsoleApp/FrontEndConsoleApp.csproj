@@ -177,7 +177,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Visited.cs" />
     <Compile Include="Models\VisitedFavorite.cs" />
-    <Compile Include="Services\RegisterService.cs" />
+    <Compile Include="Services\TrailAIDService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\ProgramUI.cs" />

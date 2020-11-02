@@ -32,7 +32,7 @@ namespace Front_End_Console_App.Models
 
         public void PrintProps()
         {
-            Console.WriteLine($"1. Park ID: {ID}" +
+            Console.WriteLine($"1. Trail ID: {ID}" +
                 $"\n2. Name: {Name}" +
                 $"\n3. City ID : {CityID}" +
                 $"\n4. City Name: {CityName}" +
@@ -46,6 +46,20 @@ namespace Front_End_Console_App.Models
                 $"\n8. Tags: {Tags}" +
                 $"\n8. Elevation: {Elevation}" +
                 $"\n8. RouteType: {RouteType}");
+        }
+        public void PrintPropsForEdit()
+        {
+            Console.WriteLine($"1. Name: {Name}" +
+                $"\n2. City ID : {CityID}" +
+                $"\n3. ParkID: {ParkID}" +
+                $"\n4. Difficulty: {Difficulty}" +
+                $"\n5. Description: {Description}" +
+                $"\n6. Distance: {Distance}" +
+                $"\n7. Type of Terrain: {TypeOfTerrain}" +
+                $"\n8. Tags: {Tags}" +
+                $"\n9. Elevation: {Elevation}" +
+                $"\n10. RouteType: {RouteType}" +
+                $"\n11. Save Changes");
         }
     }
 }

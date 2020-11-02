@@ -41,7 +41,7 @@ namespace Front_End_Console_App.Models
                 $"\n4. Hours: {Hours}" +
                 $"\n5. Phone Number: {PhoneNumber}" +
                 $"\n6. Website: {Website}" +
-                $"\n7. Return to Park Menu");
+                $"\n7. Save Changes");
         }
         public void PrintTrailsInPark()
         {

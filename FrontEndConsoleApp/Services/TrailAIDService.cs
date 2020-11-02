@@ -15,7 +15,7 @@ using System.Web.Http.Results;
 
 namespace FrontEndConsoleApp.Services
 {
-    public class RegisterService
+    public class TrailAIDService
     {
 
 
@@ -110,27 +110,46 @@ namespace FrontEndConsoleApp.Services
             }
             return default(T);
         }
-        public async Task<bool> PostGeneric<T>(T model, string typeUrl)
+        public async Task<string> PostGeneric<T>(T model, string typeUrl)
         {
             string strModel = JsonConvert.SerializeObject(model);
             HttpContent content = new StringContent(strModel, Encoding.UTF8, "application/json");
             HttpResponseMessage response = await _httpClient.PostAsync($"{APIUrl}{typeUrl}", content);
             if (response.IsSuccessStatusCode)
             {
-                return true;
+                return "true";
             }
-            return false;
+            List<string> message = response.Content.ReadAsStringAsync().Result.Split('"').ToList();
+            foreach (var phrase in message)
+            {
+                if (phrase.Contains("Invalid"))
+                {
+                    Console.WriteLine(phrase);
+                    return "invalid ID";
+                }
+            }
+            return "error";
         }
-        public async Task<bool> EditGeneric<T>(T model, int ID, string typeUrl)
+        public async Task<string> EditGeneric<T>(T model, int ID, string typeUrl)
         {
             string strModel = JsonConvert.SerializeObject(model);
             HttpContent content = new StringContent(strModel, Encoding.UTF8, "application/json");
             HttpResponseMessage response = await _httpClient.PutAsync($"{APIUrl}{typeUrl}/{ID}", content);
             if (response.IsSuccessStatusCode)
             {
-                return true;
+                return "true";
             }
-            return false;
+            List<string> message = response.Content.ReadAsStringAsync().Result.Split('"').ToList();
+            foreach (var phrase in message)
+            {
+                if (phrase.Contains("Invalid"))
+                {
+                    Console.WriteLine(phrase);
+                    return "invalid ID";
+                }
+                    
+            }
+            return "error";
         }
 
         //////////Users
