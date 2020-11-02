@@ -20,7 +20,7 @@ namespace FrontEndConsoleApp.Services
 
 
         private readonly HttpClient _httpClient = new HttpClient();
-        private static string Url = "https://localhost:44375/"
+        private static string Url = "https://localhost:44375/";
         private static string APIUrl = "https://localhost:44375/api/";
         public string token { get; set; }
 
