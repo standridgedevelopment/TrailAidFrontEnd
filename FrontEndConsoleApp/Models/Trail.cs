@@ -32,34 +32,131 @@ namespace Front_End_Console_App.Models
 
         public void PrintProps()
         {
-            Console.WriteLine($"1. Trail ID: {ID}" +
-                $"\n2. Name: {Name}" +
-                $"\n3. City ID : {CityID}" +
-                $"\n4. City Name: {CityName}" +
-                $"\n5. ParkID: {ParkID}" +
-                $"\n6. ParkName: {ParkName}" +
-                $"\n7. Rating: {Rating}" +
-                $"\n8. Difficulty: {Difficulty}" +
-                $"\n9. Description: {Description}" +
-                $"\n8. Distance: {Distance}" +
-                $"\n8. Type of Terrain: {TypeOfTerrain}" +
-                $"\n8. Tags: {Tags}" +
-                $"\n8. Elevation: {Elevation}" +
-                $"\n8. RouteType: {RouteType}");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Trail ID: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{ID}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Name: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{Name}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("City ID: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{CityID}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("City Name: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{CityName}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Park ID: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{ParkID}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Park Name: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{ParkName}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Rating: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{Rating}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Difficulty: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{Difficulty}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Description: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{Description}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Distance: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{Distance} miles");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Terrain: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{TypeOfTerrain}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Tags: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{Tags}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Elevation: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{Elevation} ft");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Route Type: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{RouteType}");
         }
         public void PrintPropsForEdit()
         {
-            Console.WriteLine($"1. Name: {Name}" +
-                $"\n2. City ID : {CityID}" +
-                $"\n3. ParkID: {ParkID}" +
-                $"\n4. Difficulty: {Difficulty}" +
-                $"\n5. Description: {Description}" +
-                $"\n6. Distance: {Distance}" +
-                $"\n7. Type of Terrain: {TypeOfTerrain}" +
-                $"\n8. Tags: {Tags}" +
-                $"\n9. Elevation: {Elevation}" +
-                $"\n10. RouteType: {RouteType}" +
-                $"\n11. Save Changes");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("1. Name: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{Name}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("2. City ID: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{CityID}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("3. Park ID: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{ParkID}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("4. Difficulty: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{Difficulty}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("5. Description: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{Description}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("6. Distance: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{Distance} miles");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("7. Terrain: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{TypeOfTerrain}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("8. Tags: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{Tags}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("9. Elevation: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{Elevation}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("10. Route Type: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{RouteType}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("11. Save Changes: ");
+            Console.ForegroundColor = ConsoleColor.White;
         }
         public void PrintTags()
         {

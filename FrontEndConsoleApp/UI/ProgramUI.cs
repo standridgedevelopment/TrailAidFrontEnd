@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace FrontEndConsoleApp.UI
 {
@@ -60,8 +62,8 @@ namespace FrontEndConsoleApp.UI
                 Console.WriteLine("2. Cities");
                 Console.WriteLine("3. Parks");
                 Console.WriteLine("4. Trails");
-                Console.WriteLine("6. Park Visits");
-                Console.WriteLine("5. Edit List of Tags");
+                Console.WriteLine("5. Park Visits");
+                Console.WriteLine("6. Edit List of Tags");
 
                 string response = Console.ReadLine().ToLower();
 
@@ -69,6 +71,7 @@ namespace FrontEndConsoleApp.UI
                 else if (response.Contains("2") || response.Contains("cities")) Cities();
                 else if (response.Contains("3")|| response.Contains("parks")) Parks();
                 else if (response.Contains("4") || response.Contains("trails")) Trails();
+                else if (response.Contains("5") || response.Contains("visit")) Visits();
                 else
                 {
                     Console.WriteLine("Please enter a valid option" +
@@ -110,8 +113,9 @@ namespace FrontEndConsoleApp.UI
                 }
                 else
                 {
-                    Console.WriteLine("Press any key to try again...");
-                    Console.ReadKey();
+                    Console.WriteLine("\nTry again? (y/n)");
+                    string response = Console.ReadLine();
+                    if (response.Contains("n")) continueToRun = false;
                     Console.Clear();
                 }
             }
@@ -140,8 +144,10 @@ namespace FrontEndConsoleApp.UI
                 if (trailAIDService.token == null)
                 {
                     Console.WriteLine("Your login information was incorrect" +
-                        "\nPress any key to try again...");
-                    Console.ReadKey();
+                        "\nTry again? (y/n)");
+                    string response = Console.ReadLine();
+                    Console.Clear();
+                    if (response.Contains("n")) return false; 
                     Console.Clear();
                 }
                 if (trailAIDService.token != null) continueToRun = false;
@@ -740,7 +746,7 @@ namespace FrontEndConsoleApp.UI
                 if (edit == "true")
                 {
                     Console.Clear();
-                    Console.WriteLine($"Changes Sucessful" +
+                    Console.WriteLine($"Changes Successful" +
                         $"\nPress any key to return to city menu");
                     Console.ReadKey();
                     Console.Clear();
@@ -1185,7 +1191,7 @@ namespace FrontEndConsoleApp.UI
                                 $"\n3. Edit Menu");
                             string tagChoice = Console.ReadLine().ToLower();
                             Console.Clear();
-                            if (tagChoice.Contains("1") || tagChoice.Contains("add"))
+                            if (tagChoice == ("1") || tagChoice.Contains("add"))
                             {
                                 Trail.PrintTags();
                                 Console.WriteLine("\nWhat Tag would you like to add?");
@@ -1196,7 +1202,7 @@ namespace FrontEndConsoleApp.UI
                                 {
                                     Trail.Tags = trailAIDService.GetGenericByID<Trail>(trailID, "Trail").Result.Tags;
                                     
-                                    Console.WriteLine("Sucess!" +
+                                    Console.WriteLine("Success!" +
                                         "\nPress any key to continue...");
                                     Console.ReadKey();
                                     Console.Clear();
@@ -1220,7 +1226,7 @@ namespace FrontEndConsoleApp.UI
                                 {
                                     Trail.DeleteTags = null;
                                     Trail.Tags = trailAIDService.GetGenericByID<Trail>(trailID, "Trail").Result.Tags;
-                                    Console.WriteLine("Sucess!" +
+                                    Console.WriteLine("Success!" +
                                         "\nPress any key to continue...");
                                     Console.ReadKey();
                                     Console.Clear();
@@ -1283,7 +1289,7 @@ namespace FrontEndConsoleApp.UI
                 if (edit == "true")
                 {
                     Console.Clear();
-                    Console.WriteLine($"Changes Sucessful" +
+                    Console.WriteLine($"Changes Successful" +
                         $"\nPress any key to return to trail menu");
                     Console.ReadKey();
                     Console.Clear();
@@ -1317,7 +1323,407 @@ namespace FrontEndConsoleApp.UI
                 else
                 {
                     Console.WriteLine("catastrophic error" +
-                        "Press any key to continue...");
+                        "\nPress any key to continue...");
+                    Console.ReadKey();
+
+                }
+            }
+        }
+        //Visits
+        private void Visits()
+        {
+            bool editVisits = true;
+            while (editVisits)
+            {
+                Console.Clear();
+                Console.WriteLine("What would you like to do?" +
+                    "\n1. Add a Visit" +
+                    "\n2. View all Visited Trails" +
+                    "\n3. Update Visit" +
+                    "\n4. Main Menu");
+                string response = Console.ReadLine().ToLower();
+                if (response.Contains("1") || response.Contains("add")) AddVisit();
+                else if (response.Contains("2") || response.Contains("all")) GetVisits();
+                else if (response.Contains("3") || response.Contains("update")) VisitByTrailID();
+                else if (response.Contains("4") || response.Contains("main")) editVisits = false;
+                else
+                {
+                    Console.WriteLine("Please enter a valid option" +
+                        "\nPress any key to continue...");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+                Console.Clear();
+            }
+        }
+        private void GetVisits()
+        {
+            Console.Clear();
+            List<Visited> allVisits = trailAIDService.GetGeneric<List<Visited>>("Visited").Result;
+            foreach (var visited in allVisits)
+            {
+                Console.WriteLine($"Trail Name: {visited.TrailName}" +
+                    $"\nTrail ID: {visited.TrailID}" +
+                    $"\nRating: {visited.Rating}\n");
+            }
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
+            Console.Clear();
+        }
+        private void AddVisit()
+        {
+            Visited newVisit = new Visited();
+            Console.Clear();
+            bool trailID = true;
+            bool rating = true;
+            bool review = true;
+            bool favorites = true;
+            string response = "";
+            while (trailID)
+            {
+                Console.WriteLine("What is the Trail ID?");
+                try
+                {
+                    newVisit.TrailID = int.Parse(Console.ReadLine());
+                    Console.Clear();
+                }
+                catch
+                {
+                    Console.WriteLine("Please enter a valid ID" +
+                        "\nPress any key to continue");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+                var foundTrail = trailAIDService.GetGenericByID<Trail>((int)newVisit.TrailID, "Trail").Result;
+                if (foundTrail != null)
+                {
+                    Console.WriteLine($"This ID matches a visit for the trail {foundTrail.Name}");
+                    trailID = false;
+                    Console.WriteLine("Did you Visit this Trail?(y/n)");
+                    response = Console.ReadLine();
+                    Console.Clear();
+                    if (response.Contains("y")) { }
+                    else
+                    {
+                        trailID = false;
+                        rating = false;
+                        review = false;
+                        favorites = false;
+                        break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Cannot find a tail by that ID." +
+                        "\nTry a new ID? (y/n)");
+                    response = Console.ReadLine();
+                    Console.Clear();
+                    if (response.Contains("y")) continue;
+                    else
+                    {
+                        trailID = false;
+                        rating = false;
+                        review = false;
+                        favorites = false;
+                        break;
+                    }
+                }
+                while (rating)
+                {
+                    Console.WriteLine("What would you rate this trail? (1-5)");
+                    try
+                    {
+                        newVisit.Rating = int.Parse(Console.ReadLine());
+                        Console.Clear();
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Please enter a valid number" +
+                            "\nPress any key to continue");
+                        Console.ReadKey();
+                        Console.Clear();
+                        continue;
+                    }
+                    if (newVisit.Rating > 0 && newVisit.Rating <= 5) rating = false;
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Please enter a number 1-5" +
+                            "\nPress any key to continue...");
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+                }
+
+                while (review)
+                {
+                    review = false;
+                    Console.WriteLine("Would you like to review this trail? (y/n)");
+                    string writeReview = Console.ReadLine().ToLower();
+                    Console.Clear();
+                    if (writeReview.Contains("y"))
+                    {
+                        Console.WriteLine("Write a short review for this trail");
+                        newVisit.Review = Console.ReadLine();
+                        Console.Clear();
+                    }
+                    if (writeReview.Contains("n")) { }
+                    else
+                    {
+                        review = true;
+                        Console.Clear();
+                        Console.WriteLine("Please enter a valid option" +
+                            "\nPress any key to continue...");
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+
+                }
+
+                while (favorites)
+                {
+                    favorites = false;
+                    Console.WriteLine("Would you like this trail to be on your favorites? (y/n)");
+                    string addToFavorites = Console.ReadLine().ToLower();
+                    if (addToFavorites.Contains("y")) newVisit.AddToFavorites = true;
+                    else if (addToFavorites.Contains("n")) newVisit.AddToFavorites = false;
+                    else
+                    {
+                        favorites = true;
+                        Console.Clear();
+                        Console.WriteLine("Please enter a valid option" +
+                            "\nPress any key to continue...");
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+
+                }
+
+                string result = trailAIDService.PostGeneric<Visited>(newVisit, "Visited").Result;
+                if (result == "true")
+                {
+                    Console.WriteLine("Visitt added successfuly");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+                else
+                {
+                    Console.WriteLine("Could not add visit" +
+                        "\nPress any key to continue...");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+            }
+        }
+        private void VisitByTrailID()
+        {
+            Console.Clear();
+            bool continueToRun = true;
+            bool visitMenu = true;
+            int trailID = 0;
+            while (continueToRun)
+            {
+                Console.Clear();
+                Console.WriteLine("Enter the ID of the trail you've visited");
+                try
+                {
+                    trailID = int.Parse(Console.ReadLine());
+                    Console.Clear();
+                    visitMenu = true;
+                }
+                catch
+                {
+                    Console.WriteLine("Please enter a number" +
+                        "\nPress any key to continue...");
+                    Console.ReadKey();
+                    Console.Clear();
+                    continue;
+                }
+                var foundVisit = trailAIDService.GetGenericByID<Visited>(trailID, "Visited").Result;
+                if (foundVisit != null)
+                {
+                    while (visitMenu)
+                    {
+                        Console.WriteLine($"This ID matches a visit for the trail trail {foundVisit.TrailName}" +
+                        $"\nWhat would you like to do?" +
+                        $"\n1. View Visit Details" +
+                        $"\n2. Edit Visit" +
+                        $"\n3. Search Again" +
+                        $"\n4. Visit Menu");
+                        string response = Console.ReadLine().ToLower();
+                        if (response.Contains("1") || response == "view")
+                        {
+                            Console.Clear();
+                            foundVisit.PrintProps();
+                            Console.WriteLine("\nPress any key to continue...");
+                            Console.ReadKey();
+                            Console.Clear();
+
+                        }
+                        else if (response.Contains("2") || response.Contains("edit"))
+                        {
+                            EditVisit(foundVisit, trailID);
+                        }
+                        else if (response.Contains("3") || response.Contains("search")) visitMenu = false;
+                        else if (response.Contains("4") || response.Contains("menu"))
+                        {
+                            visitMenu = false;
+                            continueToRun = false;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Please enter a valid option" +
+                                "\nPress any key to continue...");
+                            Console.ReadKey();
+                            Console.Clear();
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Trail not found" +
+                        "\nPress any key to continue...");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+            }
+        }
+        private void EditVisit(Visited Visited, int trailID)
+        {
+            bool editVisit = true;
+            bool success = false;
+            var originalTrailID = Visited.TrailID;
+            while (success == false)
+            {
+                editVisit = true;
+                while (editVisit)
+                {
+                    Console.Clear();
+                    Console.WriteLine("What would you like to edit?");
+
+                    Visited.PrintPropsForEdit();
+                    Console.WriteLine("\nEnter the number of your seleciton");
+                    string choice = Console.ReadLine().ToLower();
+
+                     if (choice.Contains("1") || choice.Contains("id"))
+                    {
+                        Console.Clear();
+                        bool id = true;
+                        while (id)
+                        {
+                            Console.WriteLine("What would you like to change the Trail ID to?");
+                            try
+                            {
+                                Visited.TrailID = int.Parse(Console.ReadLine());
+                                id = false;
+                                Console.Clear();
+                            }
+                            catch
+                            {
+                                Console.WriteLine("Please enter a valid ID" +
+                                    "\nPress any key to continue");
+                                Console.ReadKey();
+                                Console.Clear();
+                            }
+                        }
+                    }
+                    else if (choice.Contains("2") || choice.Contains("favorite"))
+                    {
+                        Console.Clear();
+                        bool favorites = true;
+                        while (favorites)
+                        {
+                            favorites = false;
+                            Console.WriteLine("Would you like this trail to be on your favorites? (y/n)");
+                            string addToFavorites = Console.ReadLine().ToLower();
+                            if (addToFavorites.Contains("y")) Visited.AddToFavorites = true;
+                            else if (addToFavorites.Contains("n")) Visited.AddToFavorites = false;
+                            else
+                            {
+                                favorites = true;
+                                Console.Clear();
+                                Console.WriteLine("Please enter a valid option" +
+                                    "\nPress any key to continue...");
+                                Console.ReadKey();
+                                Console.Clear();
+                            }
+                        }
+                        Console.Clear();
+                    }
+                    else if (choice.Contains("3") || choice.Contains("rating"))
+                    {
+                        Console.Clear();
+                        bool rating = true;
+                        while (rating)
+                        {
+                            Console.WriteLine("What would you like to change the Rating to? (1-5)");
+                            try
+                            {
+                                Visited.Rating = int.Parse(Console.ReadLine());
+                                Console.Clear();
+                            }
+                            catch
+                            {
+                                Console.WriteLine("Please enter a valid number" +
+                                    "\nPress any key to continue");
+                                Console.ReadKey();
+                                Console.Clear();
+                                continue;
+                            }
+                            if (Visited.Rating > 0 && Visited.Rating <= 5) rating = false;
+                            else
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Please enter a number 1-5" +
+                                    "\nPress any key to continue...");
+                                Console.ReadKey();
+                                Console.Clear();
+                            }
+
+                        }
+                    }
+
+                    else if (choice.Contains("4") || choice.Contains("review"))
+                    {
+                        Console.Clear();
+                        Console.WriteLine($"Write a small review for {Visited.TrailName}");
+                        Visited.Review = Console.ReadLine();
+                    }
+                    else if (choice.Contains("5") || choice.Contains("save")) editVisit = false;
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Please enter a valid option" +
+                            "\nPress any key to continue...");
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+                }
+
+                Console.Clear();
+                string edit = trailAIDService.EditGeneric<Visited>(Visited, trailID, "Visited").Result;
+                if (edit == "true")
+                {
+                    Console.Clear();
+                    Console.WriteLine($"Changes Successful" +
+                        $"\nPress any key to return to visited menu");
+                    Console.ReadKey();
+                    Console.Clear();
+                    success = true;
+                }
+                else if (edit == "trail")
+                {
+                    Visited.TrailID = originalTrailID;
+                    Console.WriteLine($"Press any key to return to try again");
+
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+               
+                else
+                {
+                    Console.WriteLine("catastrophic error" +
+                        "\nPress any key to continue...");
                     Console.ReadKey();
 
                 }
