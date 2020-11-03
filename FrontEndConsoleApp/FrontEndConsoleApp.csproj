@@ -168,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\AllTags.cs" />
+    <Compile Include="Models\State.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Park.cs" />
     <Compile Include="Models\RegisterBindingModel.cs" />

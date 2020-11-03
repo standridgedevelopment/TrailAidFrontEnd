@@ -21,10 +21,10 @@ namespace Front_End_Console_App.Models
         public double Rating { get; set; }
         public string Difficulty { get; set; }
         public string Description { get; set; }
-        public int Distance { get; set; }
+        public double Distance { get; set; }
         public string TypeOfTerrain { get; set; }
         public string Tags { get; set; }
-        public int Elevation { get; set; }
+        public double Elevation { get; set; }
         public string RouteType { get; set; }
         public string AddTags { get; set; }
         public string DeleteTags { get; set; }
