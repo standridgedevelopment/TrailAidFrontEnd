@@ -61,5 +61,16 @@ namespace Front_End_Console_App.Models
                 $"\n10. RouteType: {RouteType}" +
                 $"\n11. Save Changes");
         }
+        public void PrintTags()
+        {
+            List<String> eachTag = Tags.Split(' ').ToList();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Current Tags:");
+            Console.ForegroundColor = ConsoleColor.White;
+            foreach (var tag in eachTag)
+            {
+                if (tag != "") Console.WriteLine(tag);
+            }
+        }
     }
 }

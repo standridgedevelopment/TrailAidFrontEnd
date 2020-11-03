@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FrontEndConsoleApp.UI
 {
@@ -30,12 +31,12 @@ namespace FrontEndConsoleApp.UI
 
                 string response = Console.ReadLine().ToLower();
 
-                if (response == "1" || response == "login")
+                if (response.Contains("1") || response.Contains("login"))
                 {
                     status = Login();
                     if (status) continueToRun = false;
                 }
-                else if (response == "2" || response == "create account") CreateAccount();
+                else if (response.Contains("2") || response.Contains("create")) CreateAccount();
                 else
                 {
                     Console.WriteLine("Please enter a valid option" +
@@ -64,10 +65,10 @@ namespace FrontEndConsoleApp.UI
 
                 string response = Console.ReadLine().ToLower();
 
-                if (response == "1" || response == "edit profile") UserProfile(User);
-                else if (response == "2" || response == "cities") Cities();
-                else if (response == "3" || response == "parks") Parks();
-                else if (response == "4" || response == "trails") Trails();
+                if (response.Contains("1") || response.Contains("profile")) UserProfile(User);
+                else if (response.Contains("2") || response.Contains("cities")) Cities();
+                else if (response.Contains("3")|| response.Contains("parks")) Parks();
+                else if (response.Contains("4") || response.Contains("trails")) Trails();
                 else
                 {
                     Console.WriteLine("Please enter a valid option" +
@@ -177,7 +178,7 @@ namespace FrontEndConsoleApp.UI
                 response = Console.ReadLine().ToLower();
                 Console.Clear();
 
-                if (response == "1" || response == "view profile")
+                if (response.Contains("1") || response.Contains("profile"))
                 {
                     Console.Clear();
                     User = trailAIDService.GetUser().Result;
@@ -189,9 +190,9 @@ namespace FrontEndConsoleApp.UI
                     Console.ReadKey();
                     Console.Clear();
                 }
-                if (response == "2" || response == "edit profile") UpdateProfile(User);
-                else if (response == "3" || response == "view favorite trails") ViewFavoriteTrails(User);
-                else if (response == "4" || response == "main menu") continueToRun = false;
+                else if (response.Contains("2") || response.Contains("profile")) UpdateProfile(User);
+                else if (response.Contains("3") || response.Contains("favorite")) ViewFavoriteTrails(User);
+                else if (response.Contains("4") || response.Contains("menu")) continueToRun = false;
                 else
                 {
                     Console.WriteLine("Please enter a valid option" +
@@ -235,31 +236,31 @@ namespace FrontEndConsoleApp.UI
                 $"\n4. State: {User.State}" +
                 $"\n5. Main Menu");
                 string editProfile = Console.ReadLine().ToLower();
-                if (editProfile == "1" || editProfile == "first name")
+                if (editProfile.Contains("1") || editProfile.Contains("first"))
                 {
                     Console.WriteLine("Please enter your first name");
                     User.FirstName = Console.ReadLine();
                     Console.Clear();
                 }
-                if (editProfile == "2" || editProfile == "last name")
+                if (editProfile.Contains("2") || editProfile.Contains("last"))
                 {
                     Console.WriteLine("Please enter your last name");
                     User.LastName = Console.ReadLine();
                     Console.Clear();
                 }
-                if (editProfile == "3" || editProfile == "city")
+                if (editProfile.Contains("3") || editProfile.Contains("city"))
                 {
                     Console.WriteLine("Please enter your city");
                     User.City = Console.ReadLine();
                     Console.Clear();
                 }
-                if (editProfile == "4" || editProfile == "state")
+                if (editProfile.Contains("4") || editProfile.Contains("state"))
                 {
                     Console.WriteLine("Please enter your state");
                     User.State = Console.ReadLine();
                     Console.Clear();
                 }
-                if (editProfile == "5" || editProfile == "main menu")
+                if (editProfile.Contains("5") || editProfile.Contains("menu"))
                 {
                     Console.Clear();
                     if (trailAIDService.EditUserAsync(User).Result)
@@ -291,15 +292,15 @@ namespace FrontEndConsoleApp.UI
             {
                 Console.Clear();
                 Console.WriteLine("What would you like to do?" +
-                    "\n1. Add a city" +
-                    "\n2. View all cities" +
+                    "\n1. Add a City" +
+                    "\n2. View all Cities" +
                     "\n3. Edit City" +
                     "\n4. Main Menu");
                 string response = Console.ReadLine().ToLower();
-                if (response == "1" || response == "add a city") AddCity();
-                else if (response == "2" || response == "view all cities") GetCities();
-                else if (response == "3" || response == "edit a city") EditCity();
-                else if (response == "4" || response == "main menu") editCities = false;
+                if (response.Contains("1") || response.Contains("add")) AddCity();
+                else if (response.Contains("2") || response.Contains("all")) GetCities();
+                else if (response.Contains("3") || response.Contains("edit")) EditCity();
+                else if (response.Contains("4") || response.Contains("menu")) editCities = false;
                 else
                 {
                     Console.WriteLine("Please enter a valid option" +
@@ -307,6 +308,7 @@ namespace FrontEndConsoleApp.UI
                     Console.ReadKey();
                     Console.Clear();
                 }
+                Console.Clear();
             }
 
         }
@@ -356,11 +358,11 @@ namespace FrontEndConsoleApp.UI
                     Console.Clear();
                     Console.WriteLine($"This ID matches the city of {foundCity.Name}" +
                         $"\nWhat would you like to do?" +
-                        $"\n1. Rename City" +
+                        $"\n1. Edit City" +
                         $"\n2. Search Again" +
                         $"\n3. City Menu");
                     string response = Console.ReadLine().ToLower();
-                    if (response == "1" || response == "rename city")
+                    if (response.Contains("1") || response.Contains("rename"))
                     {
                         string originalName = foundCity.Name;
                         Console.Clear();
@@ -376,8 +378,16 @@ namespace FrontEndConsoleApp.UI
                             continueToRun = false;
                         }
                     }
-                    if (response == "2" || response == "search again") continue;
-                    if (response == "3" || response == "city menu") continueToRun = false;
+                    else if (response.Contains("2") || response.Contains("search")) continue;
+                    else if (response.Contains("3") || response.Contains("menu")) continueToRun = false;
+                    else
+                    {
+                        Console.WriteLine("Please enter a valid option" +
+                            "\nPress any key to continue...");
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+                    Console.Clear();
                 }
             }
         }
@@ -407,9 +417,9 @@ namespace FrontEndConsoleApp.UI
                     "\n2. Search for Parks" +
                     "\n3. Main Menu");
                 string response = Console.ReadLine().ToLower();
-                if (response == "1" || response == "add a park") AddPark();
-                else if (response == "2" || response == "search for parks") SearchParks();
-                else if (response == "3" || response == "main menu") editParks = false;
+                if (response.Contains("1") || response.Contains("add")) AddPark();
+                else if (response.Contains("2") || response.Contains("search")) SearchParks();
+                else if (response.Contains("3") || response.Contains("menu")) editParks = false;
                 else
                 {
                     Console.WriteLine("Please enter a valid option" +
@@ -417,6 +427,7 @@ namespace FrontEndConsoleApp.UI
                     Console.ReadKey();
                     Console.Clear();
                 }
+                Console.Clear();
             }
         }
         private void AddPark()
@@ -503,10 +514,10 @@ namespace FrontEndConsoleApp.UI
                     "\n3. City" +
                     "\n4. Return To Park Menu");
                 string response = Console.ReadLine().ToLower();
-                if (response == "1" || response == "id") ParkByID();
-                else if (response == "2" || response == "name") ParkByName();
-                else if (response == "3" || response == "city") ParkByCity();
-                else if (response == "4" || response == "return to park menu") continueToRun = false;
+                if (response.Contains("1") || response.Contains("id")) ParkByID();
+                else if (response.Contains("2") || response.Contains("name")) ParkByName();
+                else if (response.Contains("3") || response.Contains("city")) ParkByCity();
+                else if (response.Contains("4") || response.Contains("return")) continueToRun = false;
                 else
                 {
                     Console.WriteLine("Please enter a valid option" +
@@ -514,6 +525,7 @@ namespace FrontEndConsoleApp.UI
                     Console.ReadKey();
                     Console.Clear();
                 }
+                Console.Clear();
             }
         }
         private void ParkByID()
@@ -529,7 +541,7 @@ namespace FrontEndConsoleApp.UI
                 {
                     parkID = int.Parse(Console.ReadLine());
                     Console.Clear();
-                    continueToRun = false;
+                    parkMenu = true;
                 }
                 catch
                 {
@@ -539,55 +551,54 @@ namespace FrontEndConsoleApp.UI
                     Console.Clear();
                     continue;
                 }
-            }
-            var foundPark = trailAIDService.GetGenericByID<Park>(parkID, "Park").Result;
-            if (foundPark != null)
-            {
-                while (parkMenu)
+                var foundPark = trailAIDService.GetGenericByID<Park>(parkID, "Park").Result;
+                if (foundPark != null)
                 {
-                    Console.WriteLine($"This ID matches the park of {foundPark.Name}" +
-                    $"\nWhat would you like to do?" +
-                    $"\n1. View Park Details" +
-                    $"\n2. Edit the Park" +
-                    $"\n3. Search Again" +
-                    $"\n4. City Menu");
-                    string response = Console.ReadLine().ToLower();
-                    if (response == "1" || response == "view park details")
+                    while (parkMenu)
                     {
-                        Console.Clear();
-                        foundPark.PrintProps();
-                        Console.WriteLine("\nPress any key to continue...");
-                        Console.ReadKey();
-                        Console.Clear();
+                        Console.WriteLine($"This ID matches the park of {foundPark.Name}" +
+                        $"\nWhat would you like to do?" +
+                        $"\n1. View Park Details" +
+                        $"\n2. Edit the Park" +
+                        $"\n3. Search Again" +
+                        $"\n4. City Menu");
+                        string response = Console.ReadLine().ToLower();
+                        if (response.Contains("1") || response.Contains("details"))
+                        {
+                            Console.Clear();
+                            foundPark.PrintProps();
+                            Console.WriteLine("\nPress any key to continue...");
+                            Console.ReadKey();
+                            Console.Clear();
 
-                    }
-                    else if (response == "2" || response == "edit the park")
-                    {
-                        EditPark(foundPark, parkID);
-                    }
-                    else if (response == "3" || response == "search again") continue;
-                    else if (response == "4" || response == "city menu")
-                    {
-                        parkMenu = false;
-                        continueToRun = false;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Please enter a valid option" +
-                            "\nPress any key to continue...");
-                        Console.ReadKey();
+                        }
+                        else if (response.Contains("2") || response.Contains("edit")) EditPark(foundPark, parkID);
+                        else if (response.Contains("3") || response.Contains("again")) parkMenu = false;
+                        else if (response.Contains("4") || response.Contains("menu"))
+                        {
+                            parkMenu = false;
+                            continueToRun = false;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Please enter a valid option" +
+                                "\nPress any key to continue...");
+                            Console.ReadKey();
+                            Console.Clear();
+                        }
                         Console.Clear();
                     }
+
                 }
-
+                else
+                {
+                    Console.WriteLine("Park not found" +
+                        "\nPress any key to continue...");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
             }
-            else
-            {
-                Console.WriteLine("Park not found" +
-                    "\nPress any key to continue...");
-                Console.ReadKey();
-                Console.Clear();
-            }
+           
         }
         private void ParkByName()
         {
@@ -612,9 +623,11 @@ namespace FrontEndConsoleApp.UI
         }
         private void ParkByCity()
         {
+            Console.Clear();
             Console.WriteLine("What City?");
             string searchPark = Console.ReadLine();
             var parkResults = trailAIDService.GetGenericByCity<List<Park>>(searchPark, "Park").Result;
+            Console.Clear();
             foreach (var park in parkResults)
             {
                 Console.WriteLine($"Park Name: {park.Name}" +
@@ -644,13 +657,13 @@ namespace FrontEndConsoleApp.UI
                     Console.WriteLine("\nEnter the number of your seleciton");
                     string choice = Console.ReadLine().ToLower();
 
-                    if (choice == "1" || choice == "name")
+                    if (choice.Contains("1") || choice.Contains("name"))
                     {
                         Console.Clear();
                         Console.WriteLine($"What would you like to rename {Park.Name} to?");
                         Park.Name = Console.ReadLine();
                     }
-                    else if (choice == "2" || choice == "city id")
+                    else if (choice.Contains("2") || choice.Contains("city"))
                     {
                         Console.Clear();
                         bool cityID = true;
@@ -672,7 +685,7 @@ namespace FrontEndConsoleApp.UI
                             }
                         }
                     }
-                    else if (choice == "3" || choice == "acreage")
+                    else if (choice.Contains("3") || choice.Contains("acreage"))
                     {
                         Console.Clear();
                         bool acreage = true;
@@ -694,25 +707,25 @@ namespace FrontEndConsoleApp.UI
                             }
                         }
                     }
-                    else if (choice == "4" || choice == "hours")
+                    else if (choice.Contains("4") || choice.Contains("hours"))
                     {
                         Console.Clear();
                         Console.WriteLine($"What would you like to change the Hours to?");
                         Park.Hours = Console.ReadLine();
                     }
-                    else if (choice == "5" || choice == "phone number")
+                    else if (choice.Contains("5") || choice.Contains("phone"))
                     {
                         Console.Clear();
                         Console.WriteLine($"What would you like to change the Phone Number to?");
                         Park.PhoneNumber = Console.ReadLine();
                     }
-                    else if (choice == "6" || choice == "website")
+                    else if (choice.Contains("6") || choice.Contains("website"))
                     {
                         Console.Clear();
                         Console.WriteLine($"What would you like to change the Website to?");
                         Park.Website = Console.ReadLine();
                     }
-                    else if (choice == "7" || choice == "save changes") editPark = false;
+                    else if (choice.Contains("7") || choice.Contains("save")) editPark = false;
                     else
                     {
                         Console.Clear();
@@ -756,9 +769,9 @@ namespace FrontEndConsoleApp.UI
                     "\n2. Search for Trails" +
                     "\n3. Main Menu");
                 string response = Console.ReadLine().ToLower();
-                if (response == "1" || response == "add a trail") AddTrail();
-                else if (response == "2" || response == "search for trails") SearchTrails();
-                else if (response == "3" || response == "main menu") editTrails = false;
+                if (response.Contains("1") || response.Contains("add")) AddTrail();
+                else if (response.Contains("2") || response.Contains("search")) SearchTrails();
+                else if (response.Contains("3") || response.Contains("main")) editTrails = false;
                 else
                 {
                     Console.WriteLine("Please enter a valid option" +
@@ -766,6 +779,7 @@ namespace FrontEndConsoleApp.UI
                     Console.ReadKey();
                     Console.Clear();
                 }
+                Console.Clear();
             }
         }
         private void AddTrail()
@@ -895,13 +909,13 @@ namespace FrontEndConsoleApp.UI
                     "\n2. Name" +
                     "\n3. City" +
                     "\n4. Park" +
-                    "\n5. Return To Park Menu");
+                    "\n5. Trail Menu");
                 string response = Console.ReadLine().ToLower();
-                if (response == "1" || response == "id") TrailByID();
-                else if (response == "2" || response == "name") TrailByName();
-                else if (response == "3" || response == "city") TrailByCity();
-                else if (response == "4" || response == "park") TrailByPark();
-                else if (response == "5" || response == "return to park menu") continueToRun = false;
+                if (response.Contains("1") || response.Contains("id")) TrailByID();
+                else if (response.Contains("2") || response.Contains("name")) TrailByName();
+                else if (response.Contains("3") || response.Contains("city")) TrailByCity();
+                else if (response.Contains("4") || response.Contains("park")) TrailByPark();
+                else if (response.Contains("5") || response.Contains("menu")) continueToRun = false;
                 else
                 {
                     Console.WriteLine("Please enter a valid option" +
@@ -919,12 +933,13 @@ namespace FrontEndConsoleApp.UI
             int trailID = 0;
             while (continueToRun)
             {
+                Console.Clear();
                 Console.WriteLine("Enter the ID of the trail");
                 try
                 {
                     trailID = int.Parse(Console.ReadLine());
                     Console.Clear();
-                    continueToRun = false;
+                    trailMenu = true;
                 }
                 catch
                 {
@@ -934,55 +949,56 @@ namespace FrontEndConsoleApp.UI
                     Console.Clear();
                     continue;
                 }
-            }
-            var foundTrail = trailAIDService.GetGenericByID<Trail>(trailID, "Trail").Result;
-            if (foundTrail != null)
-            {
-                while (trailMenu)
+                var foundTrail = trailAIDService.GetGenericByID<Trail>(trailID, "Trail").Result;
+                if (foundTrail != null)
                 {
-                    Console.WriteLine($"This ID matches the trail of {foundTrail.Name}" +
-                    $"\nWhat would you like to do?" +
-                    $"\n1. View Trail Details" +
-                    $"\n2. Edit Trail" +
-                    $"\n3. Search Again" +
-                    $"\n4. Trail Menu");
-                    string response = Console.ReadLine().ToLower();
-                    if (response == "1" || response == "view Trail details")
+                    while (trailMenu)
                     {
-                        Console.Clear();
-                        foundTrail.PrintProps();
-                        Console.WriteLine("\nPress any key to continue...");
-                        Console.ReadKey();
-                        Console.Clear();
+                        Console.WriteLine($"This ID matches the trail of {foundTrail.Name}" +
+                        $"\nWhat would you like to do?" +
+                        $"\n1. View Trail Details" +
+                        $"\n2. Edit Trail" +
+                        $"\n3. Search Again" +
+                        $"\n4. Search Menu");
+                        string response = Console.ReadLine().ToLower();
+                        if (response.Contains("1") || response == "view")
+                        {
+                            Console.Clear();
+                            foundTrail.PrintProps();
+                            Console.WriteLine("\nPress any key to continue...");
+                            Console.ReadKey();
+                            Console.Clear();
 
+                        }
+                        else if (response.Contains("2") || response.Contains("edit"))
+                        {
+                            EditTrail(foundTrail, trailID);
+                        }
+                        else if (response.Contains("3") || response.Contains("search")) trailMenu = false;
+                        else if (response.Contains("4") || response.Contains("menu"))
+                        {
+                            trailMenu = false;
+                            continueToRun = false;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Please enter a valid option" +
+                                "\nPress any key to continue...");
+                            Console.ReadKey();
+                            Console.Clear();
+                        }
                     }
-                    else if (response == "2" || response == "edit trail")
-                    {
-                        EditTrail(foundTrail, trailID);
-                    }
-                    else if (response == "3" || response == "search again") continue;
-                    else if (response == "4" || response == "city menu")
-                    {
-                        trailMenu = false;
-                        continueToRun = false;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Please enter a valid option" +
-                            "\nPress any key to continue...");
-                        Console.ReadKey();
-                        Console.Clear();
-                    }
+
                 }
-
+                else
+                {
+                    Console.WriteLine("Trail not found" +
+                        "\nPress any key to continue...");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
             }
-            else
-            {
-                Console.WriteLine("Trail not found" +
-                    "\nPress any key to continue...");
-                Console.ReadKey();
-                Console.Clear();
-            }
+            
         }
         private void TrailByName()
         {
@@ -1007,9 +1023,11 @@ namespace FrontEndConsoleApp.UI
         }
         private void TrailByCity()
         {
+            Console.Clear();
             Console.WriteLine("What City?");
             string searchTrail = Console.ReadLine();
             var trailResults = trailAIDService.GetGenericByCity<List<Trail>>(searchTrail, "Trail").Result;
+            Console.Clear();
             foreach (var trail in trailResults)
             {
                 Console.WriteLine($"Trail Name: {trail.Name}" +
@@ -1019,7 +1037,7 @@ namespace FrontEndConsoleApp.UI
             string response = Console.ReadLine();
             if (response == "y")
             {
-                ParkByID();
+                TrailByID();
             }
 
         }
@@ -1037,14 +1055,12 @@ namespace FrontEndConsoleApp.UI
             string response = Console.ReadLine();
             if (response == "y")
             {
-                ParkByID();
+                TrailByID();
             }
 
         }
         private void EditTrail(Trail Trail, int trailID)
         {
-            var trailChanges = new TrailEdit();
-            trailChanges.CityID = Trail.CityID;
             bool editTrail = true;
             bool success = false;
             var originalCityID = Trail.CityID;
@@ -1061,14 +1077,13 @@ namespace FrontEndConsoleApp.UI
                     Console.WriteLine("\nEnter the number of your seleciton");
                     string choice = Console.ReadLine().ToLower();
 
-                    if (choice == "1" || choice == "name")
+                    if (choice.Contains("1") || choice.Contains("name"))
                     {
                         Console.Clear();
                         Console.WriteLine($"What would you like to rename {Trail.Name} to?");
                         Trail.Name = Console.ReadLine();
-                        trailChanges.Name = Trail.Name;
                     }
-                    else if (choice == "2" || choice == "city id")
+                    else if (choice.Contains("2") || choice.Contains("city"))
                     {
                         Console.Clear();
                         bool cityID = true;
@@ -1078,7 +1093,6 @@ namespace FrontEndConsoleApp.UI
                             try
                             {
                                 Trail.CityID = int.Parse(Console.ReadLine());
-                                trailChanges.CityID = Trail.CityID;
                                 cityID = false;
                                 Console.Clear();
                             }
@@ -1091,7 +1105,7 @@ namespace FrontEndConsoleApp.UI
                             }
                         }
                     }
-                    else if (choice == "3" || choice == "park id")
+                    else if (choice.Contains("3") || choice.Contains("park"))
                     {
                         Console.Clear();
                         bool parkID = true;
@@ -1101,7 +1115,6 @@ namespace FrontEndConsoleApp.UI
                             try
                             {
                                 Trail.ParkID = int.Parse(Console.ReadLine());
-                                trailChanges.ParkID = Trail.ParkID;
                                 parkID = false;
                                 Console.Clear();
                             }
@@ -1115,23 +1128,21 @@ namespace FrontEndConsoleApp.UI
                         }
                     }
 
-                    else if (choice == "4" || choice == "difficulty")
+                    else if (choice.Contains("4") || choice.Contains("difficulty"))
                     {
                         Console.Clear();
                         Console.WriteLine($"What would you like to change the Difficulty to?");
                         Trail.Difficulty = Console.ReadLine();
-                        trailChanges.Difficulty = Trail.Difficulty;
                     }
 
-                    else if (choice == "5" || choice == "description")
+                    else if (choice.Contains("5") || choice.Contains("description"))
                     {
                         Console.Clear();
                         Console.WriteLine($"Write a new description");
                         Trail.Description = Console.ReadLine();
-                        trailChanges.Description = Trail.Description;
                     }
 
-                    else if (choice == "6" || choice == "distance")
+                    else if (choice.Contains("6") || choice.Contains("distance"))
                     {
                         Console.Clear();
                         bool distance = true;
@@ -1141,7 +1152,6 @@ namespace FrontEndConsoleApp.UI
                             try
                             {
                                 Trail.Distance = int.Parse(Console.ReadLine());
-                                trailChanges.Distance = Trail.Distance;
                                 distance = false;
                                 Console.Clear();
                             }
@@ -1155,21 +1165,80 @@ namespace FrontEndConsoleApp.UI
                         }
                     }
 
-                    else if (choice == "7" || choice == "type of terrain")
+                    else if (choice.Contains("7") || choice.Contains("terrain"))
                     {
                         Console.Clear();
                         Console.WriteLine($"What would you like to change the Terrain to?");
                         Trail.TypeOfTerrain = Console.ReadLine();
-                        trailChanges.TypeOfTerrain = Trail.TypeOfTerrain;
                     }
 
-                    else if (choice == "8" || choice == "tags")
+                    else if (choice.Contains("8") || choice.Contains("tags"))
                     {
+                        string tagResult = "";
+                        bool editTags = true;
+                        while (editTags)
+                        {
+                            Console.Clear();
+                            Console.WriteLine($"What would you like to do?" +
+                                $"\n1. Add Tag" +
+                                $"\n2. Delete tag" +
+                                $"\n3. Edit Menu");
+                            string tagChoice = Console.ReadLine().ToLower();
+                            Console.Clear();
+                            if (tagChoice.Contains("1") || tagChoice.Contains("add"))
+                            {
+                                Trail.PrintTags();
+                                Console.WriteLine("\nWhat Tag would you like to add?");
+                                Trail.AddTags = Console.ReadLine();
+                                Console.Clear();
+                                tagResult = trailAIDService.EditGeneric<Trail>(Trail, trailID, "Trail").Result;
+                                if (tagResult == "true")
+                                {
+                                    Trail.Tags = trailAIDService.GetGenericByID<Trail>(trailID, "Trail").Result.Tags;
+                                    
+                                    Console.WriteLine("Sucess!" +
+                                        "\nPress any key to continue...");
+                                    Console.ReadKey();
+                                    Console.Clear();
+                                }
+                                if (tagResult == "tag")
+                                {
+                                    Console.WriteLine("Press any key to continue...");
+                                    Console.ReadKey();
+                                    Console.Clear();
+                                }
+                                Trail.AddTags = null;
+                            }
+                            if (tagChoice.Contains("2") || tagChoice.Contains("delete"))
+                            {
+                                Trail.PrintTags();
+                                Console.WriteLine("\nWhat Tag would you like to delete?");
+                                Trail.DeleteTags = Console.ReadLine();
+                                Console.Clear();
+                                tagResult = trailAIDService.EditGeneric<Trail>(Trail, trailID, "Trail").Result;
+                                if (tagResult == "true")
+                                {
+                                    Trail.DeleteTags = null;
+                                    Trail.Tags = trailAIDService.GetGenericByID<Trail>(trailID, "Trail").Result.Tags;
+                                    Console.WriteLine("Sucess!" +
+                                        "\nPress any key to continue...");
+                                    Console.ReadKey();
+                                    Console.Clear();
+
+                                }
+                                if (tagResult == "false")
+                                {
+                                    Console.WriteLine("Press any key to continue...");
+                                    Console.ReadKey();
+                                    Console.Clear();
+                                }
+                                Trail.DeleteTags = null;
+                            }
+                            if (tagChoice.Contains("3") || tagChoice.Contains("menu")) editTags = false;
+                        }
                         Console.Clear();
-                        Console.WriteLine($"What would you like to change the tags to?");
-                        Trail.Tags = Console.ReadLine();
                     }
-                    else if (choice == "9" || choice == "Elevation")
+                    else if (choice.Contains("9") || choice.Contains("elevation"))
                     {
                         Console.Clear();
                         bool elevation = true;
@@ -1179,7 +1248,6 @@ namespace FrontEndConsoleApp.UI
                             try
                             {
                                 Trail.Elevation = int.Parse(Console.ReadLine());
-                                trailChanges.Elevation = Trail.Elevation;
                                 elevation = false;
                                 Console.Clear();
                             }
@@ -1193,14 +1261,13 @@ namespace FrontEndConsoleApp.UI
                         }
                     }
 
-                    else if (choice == "10" || choice == "route type")
+                    else if (choice.Contains("10") || choice.Contains("type"))
                     {
                         Console.Clear();
                         Console.WriteLine($"What would you like to change the Route Type to?");
                         Trail.RouteType = Console.ReadLine();
-                        trailChanges.RouteType = Trail.RouteType;
                     }
-                    else if (choice == "11" || choice == "save changes") editTrail = false;
+                    else if (choice.Contains("11") || choice.Contains("save")) editTrail = false;
                     else
                     {
                         Console.Clear();
@@ -1212,7 +1279,7 @@ namespace FrontEndConsoleApp.UI
                 }
 
                 Console.Clear();
-                string edit = trailAIDService.EditGeneric<TrailEdit>(trailChanges, trailID, "Trail").Result;
+                string edit = trailAIDService.EditGeneric<Trail>(Trail, trailID, "Trail").Result;
                 if (edit == "true")
                 {
                     Console.Clear();
@@ -1222,9 +1289,26 @@ namespace FrontEndConsoleApp.UI
                     Console.Clear();
                     success = true;
                 }
-                else if (edit == "ID")
+                else if (edit == "city & park")
                 {
                     Trail.CityID = originalCityID;
+                    Trail.ParkID = originalParkID;
+                    Console.WriteLine($"Press any key to return to try again");
+
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+                else if (edit == "city")
+                {
+                    Trail.CityID = originalCityID;
+                    Console.WriteLine($"Press any key to return to try again");
+
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+                else if (edit == "park")
+                {
+                    Trail.ParkID = originalParkID;
                     Console.WriteLine($"Press any key to return to try again");
 
                     Console.ReadKey();

@@ -21,7 +21,7 @@ namespace FrontEndConsoleApp.Services
 
         private readonly HttpClient _httpClient = new HttpClient();
         private static string Url = "https://localhost:44375/";
-        private static string APIUrl = "https://localhost:44375/api/";
+        private static string APIUrl = $"{Url}api/";
         public string token { get; set; }
 
 
@@ -143,10 +143,25 @@ namespace FrontEndConsoleApp.Services
             List<string> message = response.Content.ReadAsStringAsync().Result.Split('"').ToList();
             foreach (var phrase in message)
             {
+                if (phrase.Contains("Park") && phrase.Contains("City"))
+                {
+                    Console.WriteLine(phrase);
+                    return "city & park";
+                }
+                if (phrase.Contains("City"))
+                {
+                    Console.WriteLine(phrase);
+                    return "city";
+                }
                 if (phrase.Contains("Park"))
                 {
                     Console.WriteLine(phrase);
                     return "park";
+                }
+                if (phrase.Contains("Tag"))
+                {
+                    Console.WriteLine(phrase);
+                    return "tag";
                 }
                     
             }

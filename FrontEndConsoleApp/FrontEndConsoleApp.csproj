@@ -174,10 +174,8 @@
     <Compile Include="Models\Token.cs" />
     <Compile Include="Models\TokenCreate.cs" />
     <Compile Include="Models\Trail.cs" />
-    <Compile Include="Models\TrailEdit.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Visited.cs" />
-    <Compile Include="Models\VisitedFavorite.cs" />
     <Compile Include="Services\TrailAIDService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

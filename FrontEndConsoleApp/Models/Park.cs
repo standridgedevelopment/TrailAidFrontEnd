@@ -23,25 +23,86 @@ namespace Front_End_Console_App.Models
 
         public void PrintProps()
         {
-            Console.WriteLine($"1. Park ID: {ID}" +
-                $"\n2. Name: {Name}" +
-                $"\n3. Rating: {AverageTrailRating}" +
-                $"\n4. City ID : {CityID}" +
-                $"\n5. City Name: {CityName}" +
-                $"\n6. Acreage: {Acreage}" +
-                $"\n7. Hours: {Hours}" +
-                $"\n8. Phone Number: {PhoneNumber}" +
-                $"\n9. Website: {Website}");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("ID: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{ID}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Name: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{Name}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Rating: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{AverageTrailRating}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("City ID: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{CityID}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("City Name: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{CityName}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Acreage: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{Acreage}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Hours: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{Hours}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Phone Number: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{PhoneNumber}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Website: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{Website}");
         }
         public void PrintPropsForEdit()
         {
-            Console.WriteLine($"\n1. Name: {Name}" +
-                $"\n2. City ID : {CityID}" +
-                $"\n3. Acreage: {Acreage}" +
-                $"\n4. Hours: {Hours}" +
-                $"\n5. Phone Number: {PhoneNumber}" +
-                $"\n6. Website: {Website}" +
-                $"\n7. Save Changes");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("1. Name: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{Name}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("2. City ID: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{CityID}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("3. Acreage: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{Acreage}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("4. Hours: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{Hours}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("5. Phone Number: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{PhoneNumber}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("6. Website: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"{Website}");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("7. Save Changes: ");
+            Console.ForegroundColor = ConsoleColor.White;
         }
         public void PrintTrailsInPark()
         {
