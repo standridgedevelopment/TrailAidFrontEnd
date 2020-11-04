@@ -1074,7 +1074,7 @@ namespace FrontEndConsoleApp.UI
         private void TrailByName()
         {
             bool search = true;
-            while (search) 
+            while (search)
             {
                 Console.Clear();
                 Console.WriteLine("What is the name of the trail?");
@@ -1163,7 +1163,7 @@ namespace FrontEndConsoleApp.UI
                     Console.WriteLine("\nEnter the number of your seleciton");
                     string choice = Console.ReadLine().ToLower();
 
-                    if (choice  == "1" || choice.Contains("name"))
+                    if (choice == "1" || choice.Contains("name"))
                     {
                         Console.Clear();
                         Console.WriteLine($"What would you like to rename {Trail.Name} to?");
@@ -1823,12 +1823,21 @@ namespace FrontEndConsoleApp.UI
             {
                 Console.Clear();
                 Console.WriteLine($"What would you like to do?" +
-                    $"\n1. Add Tag" +
-                    $"\n2. Delete tag" +
-                    $"\n3. Edit Menu");
+                    $"\n1. View Tags" +
+                    $"\n2. Add Tag" +
+                    $"\n3. Delete tag" +
+                    $"\n4. Main Menu");
                 string tagChoice = Console.ReadLine().ToLower();
                 Console.Clear();
-                if (tagChoice == ("1") || tagChoice.Contains("add"))
+                if (tagChoice == ("1") || tagChoice.Contains("view"))
+                {
+                    allTags.PrintTags();
+
+                    Console.WriteLine("Press any key to continue...");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+                if (tagChoice == ("2") || tagChoice.Contains("add"))
                 {
                     allTags.PrintTags();
                     Console.WriteLine("\nWhat Tag would you like to add?");
@@ -1852,7 +1861,7 @@ namespace FrontEndConsoleApp.UI
                     }
                     allTags.AddTags = null;
                 }
-                if (tagChoice.Contains("2") || tagChoice.Contains("delete"))
+                if (tagChoice.Contains("3") || tagChoice.Contains("delete"))
                 {
                     allTags.PrintTags();
                     Console.WriteLine("\nWhat Tag would you like to delete?");
@@ -1877,7 +1886,7 @@ namespace FrontEndConsoleApp.UI
                     }
                     allTags.DeleteTags = null;
                 }
-                if (tagChoice.Contains("3") || tagChoice.Contains("menu")) editTags = false;
+                if (tagChoice.Contains("4") || tagChoice.Contains("menu")) editTags = false;
             }
             Console.Clear();
         }
