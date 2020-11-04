@@ -17,8 +17,6 @@ namespace FrontEndConsoleApp.Services
 {
     public class TrailAIDService
     {
-
-
         private readonly HttpClient _httpClient = new HttpClient();
         private static string Url = "https://localhost:44375/";
         private static string APIUrl = $"{Url}api/";
@@ -113,13 +111,17 @@ namespace FrontEndConsoleApp.Services
         }
         public async Task<string> PostGeneric<T>(T model, string typeUrl)
         {
+            //Serialze Model
             string strModel = JsonConvert.SerializeObject(model);
+            //Create Content to Pass In
             HttpContent content = new StringContent(strModel, Encoding.UTF8, "application/json");
+            //Post
             HttpResponseMessage response = await _httpClient.PostAsync($"{APIUrl}{typeUrl}", content);
             if (response.IsSuccessStatusCode)
             {
                 return "true";
             }
+            //BadRequest Error Messages
             List<string> message = response.Content.ReadAsStringAsync().Result.Split('"').ToList();
             foreach (var phrase in message)
             {
@@ -200,6 +202,38 @@ namespace FrontEndConsoleApp.Services
                 return true;
             }
             return false;
+        }
+
+        //AllTags
+        public async Task<string> EditTags(AllTags model)
+        {
+            string strModel = JsonConvert.SerializeObject(model);
+            HttpContent content = new StringContent(strModel, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await _httpClient.PutAsync($"{APIUrl}AllTags/", content);
+            if (response.IsSuccessStatusCode)
+            {
+                return "true";
+            }
+            List<string> message = response.Content.ReadAsStringAsync().Result.Split('"').ToList();
+            foreach (var phrase in message)
+            {
+                if (phrase.Contains("Tag"))
+                {
+                    Console.WriteLine(phrase);
+                    return "tag";
+                }
+
+            }
+            return "error";
+        }
+        public async Task<AllTags> GetAllTags()
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync($"{APIUrl}AllTags");
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadAsAsync<AllTags>();
+            }
+            return default(AllTags);
         }
     }
 }

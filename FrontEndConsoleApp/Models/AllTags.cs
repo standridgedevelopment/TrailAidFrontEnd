@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Front_End_Console_App.Models
 {
-    class AllTags
+    public class AllTags
     {
         public int ID { get; set; }
         public string ListOfAllTags { get; set; }
