@@ -231,7 +231,8 @@ namespace FrontEndConsoleApp.Services
             HttpResponseMessage response = await _httpClient.GetAsync($"{APIUrl}AllTags");
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadAsAsync<AllTags>();
+                List<AllTags> result = response.Content.ReadAsAsync<List<AllTags>>().Result;
+                return result[0];
             }
             return default(AllTags);
         }

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace FrontEndConsoleApp.UI
 {
@@ -73,6 +74,7 @@ namespace FrontEndConsoleApp.UI
                 else if (response.Contains("3") || response.Contains("parks")) Parks();
                 else if (response.Contains("4") || response.Contains("trails")) Trails();
                 else if (response.Contains("5") || response.Contains("visit")) Visits();
+                else if (response.Contains("6") || response.Contains("tags")) EditAllTags();
                 else
                 {
                     Console.WriteLine("Please enter a valid option" +
@@ -83,7 +85,7 @@ namespace FrontEndConsoleApp.UI
 
             }
         }
-        //Accounts!
+        //Accounts
         private void CreateAccount()
         {
             bool continueToRun = true;
@@ -157,7 +159,8 @@ namespace FrontEndConsoleApp.UI
             }
             return true;
         }
-        //User!
+
+        //User
         private void UserProfile(User User)
         {
             Console.Clear();
@@ -244,6 +247,7 @@ namespace FrontEndConsoleApp.UI
                 $"\n4. State: {User.State}" +
                 $"\n5. Main Menu");
                 string editProfile = Console.ReadLine().ToLower();
+                Console.Clear();
                 if (editProfile.Contains("1") || editProfile.Contains("first"))
                 {
                     Console.WriteLine("Please enter your first name");
@@ -294,6 +298,8 @@ namespace FrontEndConsoleApp.UI
                 Console.Clear();
             }
         }
+
+        //Cities
         private void Cities()
         {
             bool editCities = true;
@@ -1088,6 +1094,7 @@ namespace FrontEndConsoleApp.UI
                     {
                         TrailByID();
                     }
+                    else { search = false; }
 
                     Console.Clear();
                 }
@@ -1156,7 +1163,7 @@ namespace FrontEndConsoleApp.UI
                     Console.WriteLine("\nEnter the number of your seleciton");
                     string choice = Console.ReadLine().ToLower();
 
-                    if (choice.Contains("1") || choice.Contains("name"))
+                    if (choice  == "1" || choice.Contains("name"))
                     {
                         Console.Clear();
                         Console.WriteLine($"What would you like to rename {Trail.Name} to?");
@@ -1402,6 +1409,7 @@ namespace FrontEndConsoleApp.UI
                 }
             }
         }
+
         //Visits
         private void Visits()
         {
@@ -1802,10 +1810,13 @@ namespace FrontEndConsoleApp.UI
                 }
             }
         }
+
         //Tags
         private void EditAllTags()
         {
-            var allTags = trailAIDService.GetGeneric<AllTags>("AllTags").Result;
+            List<AllTags> result = trailAIDService.GetGeneric<List<AllTags>>("AllTags").Result;
+            //var allTags = result[0];
+            var allTags = trailAIDService.GetAllTags().Result;
             bool editTags = true;
             string tagResult = "";
             while (editTags)
