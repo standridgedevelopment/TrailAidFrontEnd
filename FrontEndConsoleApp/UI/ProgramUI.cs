@@ -254,25 +254,25 @@ namespace FrontEndConsoleApp.UI
                     User.FirstName = Console.ReadLine();
                     Console.Clear();
                 }
-                if (editProfile.Contains("2") || editProfile.Contains("last"))
+                else if (editProfile.Contains("2") || editProfile.Contains("last"))
                 {
                     Console.WriteLine("Please enter your last name");
                     User.LastName = Console.ReadLine();
                     Console.Clear();
                 }
-                if (editProfile.Contains("3") || editProfile.Contains("city"))
+                else if (editProfile.Contains("3") || editProfile.Contains("city"))
                 {
                     Console.WriteLine("Please enter your city");
                     User.City = Console.ReadLine();
                     Console.Clear();
                 }
-                if (editProfile.Contains("4") || editProfile.Contains("state"))
+                else if (editProfile.Contains("4") || editProfile.Contains("state"))
                 {
                     Console.WriteLine("Please enter your state");
                     User.State = Console.ReadLine();
                     Console.Clear();
                 }
-                if (editProfile.Contains("5") || editProfile.Contains("menu"))
+                else if (editProfile.Contains("5") || editProfile.Contains("menu"))
                 {
                     Console.Clear();
                     if (trailAIDService.EditUserAsync(User).Result)
@@ -292,11 +292,12 @@ namespace FrontEndConsoleApp.UI
             foreach (var trail in User.Favorites)
             {
                 Console.WriteLine($"Trail Name: {trail.TrailName}" +
-                    $"\nTrail ID: {trail.TrailID}\n" +
-                    $"\nPress any key to continue...");
-                Console.ReadKey();
-                Console.Clear();
+                    $"\nTrail ID: {trail.TrailID}\n");
+                
             }
+            Console.WriteLine($"\nPress any key to continue...");
+            Console.ReadKey();
+            Console.Clear();
         }
 
         //Cities
